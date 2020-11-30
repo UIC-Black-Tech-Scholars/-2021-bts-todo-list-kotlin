@@ -22,8 +22,6 @@ class CustomListItemAdapter(context: Context, list: List<ListItem>) : ArrayAdapt
         title?.text = items[position].title
         description?.text = items[position].description
         priority?.text = items[position].priority.toString()
-
-
         return listItem
     }
 

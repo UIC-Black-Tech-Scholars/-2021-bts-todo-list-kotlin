@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         //find view objects
         listView = findViewById(R.id.list_view)
         floatingActionButton = findViewById(R.id.floatingActionButton)
-        floatingActionButton.setOnClickListener { view -> addNewNote(view) }
 
         //create list data
         dataList.forEach { item ->
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = customArrayAdapter
 
         //set up adding and removing data.
+        floatingActionButton.setOnClickListener { view -> addNewNote(view) }
         listView.isLongClickable = true
         listView.setOnItemLongClickListener { parent, view, position, id ->
             removeItemOnLongClick(parent, view, position, id)
