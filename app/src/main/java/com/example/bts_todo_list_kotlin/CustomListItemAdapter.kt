@@ -9,6 +9,7 @@ import android.widget.TextView
 
 
 class CustomListItemAdapter(context: Context, list: List<ListItem>) : ArrayAdapter<ListItem?>(context, 0, list) {
+    private var TAG = "CustomListItemAdapter"
     private val mContext: Context = context
     private var items: List<ListItem> = list
 
@@ -21,7 +22,10 @@ class CustomListItemAdapter(context: Context, list: List<ListItem>) : ArrayAdapt
         title?.text = items[position].title
         description?.text = items[position].description
         priority?.text = items[position].priority.toString()
+
+
         return listItem
     }
+
 
 }

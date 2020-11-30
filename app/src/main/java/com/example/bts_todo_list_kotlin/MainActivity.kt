@@ -1,12 +1,11 @@
 package com.example.bts_todo_list_kotlin
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewParent
 import android.widget.EditText
 import android.widget.ListView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
@@ -40,16 +39,36 @@ class MainActivity : AppCompatActivity() {
         //hook list data up to our list using array adapter
         customArrayAdapter = CustomListItemAdapter(this, dataList)
         listView.adapter = customArrayAdapter
+
+        //set up adding and removing data.
+        listView.isLongClickable = true
+        listView.setOnItemLongClickListener { parent, view, position, id ->
+            removeItemOnLongClick(parent, view, position, id)
+        }
     }
+
+
+    private fun removeItemOnLongClick(
+        parent: ViewParent,
+        view: View,
+        position: Int,
+        id: Long
+    ): Boolean {
+        Log.i(TAG, "GETTING ITEM NUMBER - $position")
+        customArrayAdapter.remove(customArrayAdapter.getItem(position))
+        customArrayAdapter.notifyDataSetChanged()
+        return true
+    }
+
 
     fun addNewNote(view: View) {
         val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this)
-        builder.setTitle("Name")
+        builder.setTitle("Create New Item")
         val customLayout: View = layoutInflater.inflate(R.layout.custom_alert_dialog, null)
         builder.setView(customLayout)
         builder.setPositiveButton("OK") { _, _ ->
-                // AlertDialog to the Activity
-                val number = customLayout.findViewById<EditText>(R.id.number).text.toString()
+            // AlertDialog to the Activity
+            val number = customLayout.findViewById<EditText>(R.id.number).text.toString()
                 val title = customLayout.findViewById<EditText>(R.id.title).text.toString()
                 val description = customLayout.findViewById<EditText>(R.id.description).text.toString()
                 dataList.add(ListItem(title, description, number.toInt()))
